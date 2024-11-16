@@ -23,6 +23,8 @@ autoinstall:
     - fzf
     - fd-find
     - bat
+    - wget
+    - gpg
     # - fonts-firacode
   
   apt:
@@ -70,8 +72,11 @@ autoinstall:
       brew install deno direnv node@20 poetry pre-commit virtualenv
 
     - curtin in-target --
-      bash ./install-scripts/nivm.sh
-      bash ./install-scripts/zsh.sh
+      # simplify
+      for f in ./install-scripts/*; do
+        bash $f
+      done
+      
 
     - curtin in-target --
       # move every folder in ./.config to ~/.config
