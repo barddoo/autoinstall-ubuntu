@@ -2,21 +2,39 @@
 autoinstall:
   # version is an Autoinstall required field.
   version: 1
+  source:
+    id: ubuntu-desktop
 
   # This adds the default ubuntu-desktop packages to the system.
   # Any desired additional packages may also be listed here.
   packages:
-    - ubuntu-desktop
+    - flatpak
+    - alacritty
+    - gnome-tweaks
+    - zoxide
+    - neovim
+    - git
+    - curl
+    - build-essential
+    - procps
+    - file
+    - gcc
+    - tmux
+    - zsh
+    - fzf
+    - fonts-firacode
+    # - ubuntu-restricted-extras
+  
+  apt:
+   mirror-selection:
+     primary:
+       - uri: "ppa:neovim-ppa/stable"
+    
 
+    
   # This adds the default snaps found on a 22.04 Ubuntu Desktop system.
   # Any desired additional snaps may also be listed here.
   snaps:
-    - name: firefox
-    - name: gnome-3-38-2004
-    - name: gtk-common-themes
-    - name: snap-store
-    - name: snapd-desktop-integration
-
   # User creation can occur in one of 3 ways:
   # 1. Create a user using this `identity` section.
   # 2. Create users as documented in cloud-init inside the user-data section,
@@ -50,8 +68,7 @@ autoinstall:
     # Enable the boot splash
     - >-
       curtin in-target --
-      sed -i /etc/default/grub -e
-      's/GRUB_CMDLINE_LINUX_DEFAULT=".*/GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"/'
+      bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     - curtin in-target -- update-grub
 
     # Let NetworkManager handle network
