@@ -18,12 +18,12 @@ autoinstall:
     - build-essential
     - procps
     - file
-    - gcc
     - tmux
     - zsh
     - fzf
-    - fonts-firacode
-    # - ubuntu-restricted-extras
+    - fd-find
+    - bat
+    # - fonts-firacode
   
   apt:
    mirror-selection:
@@ -55,10 +55,6 @@ autoinstall:
     layout:
       name: direct
 
-  # Ubuntu Desktop uses the hwe flavor kernel by default.
-  early-commands:
-    - echo 'linux-generic-hwe-22.04' > /run/kernel-meta-package
-
   # The live-server ISO does not contain some of the required packages,
   # such as ubuntu-desktop or the hwe kernel (or most of their depdendencies).
   # The system being installed will need some sort of apt access.
@@ -69,34 +65,17 @@ autoinstall:
     - >-
       curtin in-target --
       bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-    - curtin in-target -- update-grub
 
-    # Let NetworkManager handle network
-    - rm /target/etc/netplan/00-installer-config*yaml
-    - >-
-      printf "network:\n  version: 2\n  renderer: NetworkManager"
-      > /target/etc/netplan/01-network-manager-all.yaml
+    - curtin in-target --
+      brew install deno direnv node@20 poetry pre-commit virtualenv
 
-    # Remove default filesystem and related tools not used with the suggested
-    # 'direct' storage layout.  These may yet be required if different
-    # partitioning schemes are used.
-    - >-
-      curtin in-target -- apt-get remove -y
-      btrfs-progs cryptsetup* lvm2 xfsprogs
+    - curtin in-target --
+      bash ./install-scripts/nivm.sh
+      bash ./install-scripts/zsh.sh
 
-    # Remove other packages present by default in Ubuntu Server but not
-    # normally present in Ubuntu Desktop.
-    - >-
-      curtin in-target -- apt-get remove -y
-      ubuntu-server ubuntu-server-minimal
-      binutils byobu curl dmeventd finalrd gawk
-      kpartx mdadm ncurses-term needrestart open-iscsi openssh-server
-      sg3-utils ssh-import-id sssd thin-provisioning-tools vim tmux
-      sosreport screen open-vm-tools motd-news-config lxd-agent-loader
-      landscape-common htop git fonts-ubuntu-console ethtool
-
-    # Keep cloud-init, as it performs some of the installation on first boot.
-    - curtin in-target -- apt-get install -y cloud-init
+    - curtin in-target --
+      # move every folder in ./.config to ~/.config
+      mv ./.config/* ~/.config
 
     # Finally, remove things only installed as dependencies of other things
     # we have already removed.
