@@ -91,7 +91,9 @@ autoinstall:
     # - wget -O /target/postinstall.sh http://192.168.0.2/postinstall.sh
     # - curtin in-target -- bash /postinstall.sh
     # - rm /target/postinstall.sh
-
+  error-commands:
+    - tar -czf /installer-logs.tar.gz /var/log/installer/
+    - journalctl -b > /installer-journal.log
   # Additional cloud-init configuration affecting the target
   # system can be supplied underneath a user-data section inside of
   # autoinstall.
