@@ -4,7 +4,5 @@ flatpak install flathub com.getpostman.Postman \
   com.slack.Slack \
   com.protonvpn.www \
   com.valvesoftware.Steam \
-  io.github.zen_browser.zen \
   io.missioncenter.MissionCenter \
-  me.iepure.devtoolbox \
   me.proton.Pass \
