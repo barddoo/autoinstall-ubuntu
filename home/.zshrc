@@ -19,9 +19,6 @@ eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 # Set the directory we want to store zinit and plugins
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 
-# nvim
-export PATH="$PATH:/opt/nvim-linux64/bin"
-
 # Enable brew completions
 if type brew &>/dev/null
 then
@@ -105,6 +102,7 @@ alias l='ls --color'
 eval "$(fzf --zsh)"
 eval "$(zoxide init --cmd cd zsh)"
 
-export FZF_DEFAULT_COMMAND='fdfind --type f --strip-cwd-prefix --hidden --follow --exclude .git'
+export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix --hidden --follow --exclude .git'
 
-export PATH="/home/linuxbrew/.linuxbrew/opt/node@20/bin:$PATH"
+export EDITOR="nvim"
+export PATH="/home/linuxbrew/.linuxbrew/opt/node@22/bin:$PATH"
