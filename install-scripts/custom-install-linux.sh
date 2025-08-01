@@ -1,7 +1,13 @@
 apt update
 add-apt-repository ppa:neovim-ppa/stable
 apt update
-apt install -y flatpak zoxide git curl build-essential file neovim
+apt install -y flatpak git curl build-essential file
+
+#
+curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
+sudo rm -rf /opt/nvim
+sudo tar -C /opt -xzf nvim-linux-x86_64.tar.gz
+
 
 # Install Visual Studio Code
 echo "code code/add-microsoft-repo boolean true" | sudo debconf-set-selections
